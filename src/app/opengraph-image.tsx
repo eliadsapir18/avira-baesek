@@ -6,6 +6,11 @@ export const alt = "אווירה בעסק — מוזיקה חכמה לעסקים
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
+// satori (next/og) לא מיישם BiDi — הוא מרנדר עברית בסדר הפוך.
+// היפוך התווים מראש מבטל את ההיפוך שלו → תצוגה תקינה.
+// תקף למחרוזות עברית טהורות בלבד (בלי ספרות/לטינית מעורבות).
+const rtl = (s: string) => [...s].reverse().join("");
+
 export default async function Image() {
   const [bold, semi] = await Promise.all([
     readFile(join(process.cwd(), "assets/Assistant-800.ttf")),
@@ -37,7 +42,7 @@ export default async function Image() {
             marginBottom: 16,
           }}
         >
-          מוזיקה חכמה לעסקים
+          {rtl("מוזיקה חכמה לעסקים")}
         </div>
         <div
           style={{
@@ -47,7 +52,7 @@ export default async function Image() {
             fontWeight: 800,
           }}
         >
-          אווירה בעסק
+          {rtl("אווירה בעסק")}
         </div>
         <div
           style={{
@@ -60,7 +65,7 @@ export default async function Image() {
             textAlign: "center",
           }}
         >
-          פלייליסטים מקוריים מותאמים לאופי המקום, לקהל ולשעות
+          {rtl("פלייליסטים מקוריים מותאמים לאופי המקום, לקהל ולשעות")}
         </div>
         <div
           style={{
@@ -74,7 +79,7 @@ export default async function Image() {
             borderRadius: 999,
           }}
         >
-          חודש ניסיון חינם
+          {rtl("חודש ניסיון חינם")}
         </div>
       </div>
     ),
