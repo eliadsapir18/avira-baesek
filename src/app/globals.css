@@ -44,3 +44,54 @@ body::before {
   border-top: 1px solid rgba(212, 168, 83, 0.12);
   margin: 0;
 }
+
+/* טבעת הפעימה של כפתור הוואטסאפ הצף */
+@keyframes fab-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  70%,
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
+/* חשיפת סקשנים בגלילה — CSS טהור, progressive enhancement.
+   מופעל רק אם הדפדפן תומך ב-scroll-driven animations; אחרת
+   התוכן פשוט מוצג רגיל (אף פעם לא נשאר מוסתר). ההירו (section
+   ראשון) לא מונפש כדי למנוע הבהוב מעל הקיפול. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    @keyframes section-reveal {
+      from {
+        opacity: 0;
+        transform: translateY(28px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+    main > section:not(:first-of-type) {
+      animation: section-reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 26%;
+    }
+  }
+}
+
+/* נגישות: כיבוד העדפת תנועה מופחתת — מנטרל אנימציות וגלילה חלקה */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

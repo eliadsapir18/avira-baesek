@@ -1,10 +1,6 @@
 import AudioDemo from "./AudioDemo";
-
-const WA_PHONE = "972546503587";
-const WA_MESSAGE = encodeURIComponent(
-  'היי, ראיתי את השירות "אווירה בעסק" ואני רוצה לקבל חודש ניסיון חינם.\n\nסוג העסק שלי:\nשם העסק:\nעיר:\nהאווירה שאני רוצה במקום:'
-);
-const WA_URL = `https://wa.me/${WA_PHONE}?text=${WA_MESSAGE}`;
+import FloatingWhatsApp from "./FloatingWhatsApp";
+import { WA_URL } from "./whatsapp";
 
 function WhatsAppButton({ size = "default" }: { size?: "default" | "large" }) {
   const base =
@@ -193,6 +189,7 @@ export default function Page() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
+      <FloatingWhatsApp />
 
       {/* ─── 1. HERO ─────────────────────────────────────────── */}
       <section
