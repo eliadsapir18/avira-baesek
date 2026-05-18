@@ -1,3 +1,5 @@
+import AudioDemo from "./AudioDemo";
+
 const WA_PHONE = "972500000000";
 const WA_MESSAGE = encodeURIComponent(
   'היי, ראיתי את השירות "אווירה בעסק" ואני רוצה לקבל חודש ניסיון חינם.\n\nסוג העסק שלי:\nשם העסק:\nעיר:\nהאווירה שאני רוצה במקום:'
@@ -263,6 +265,11 @@ export default function Page() {
           </div>
         </div>
       </section>
+
+      <hr className="section-divider" />
+
+      {/* ─── 3.5 AUDIO DEMO ──────────────────────────────────── */}
+      <AudioDemo />
 
       <hr className="section-divider" />
 
