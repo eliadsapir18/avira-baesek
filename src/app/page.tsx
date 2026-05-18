@@ -145,12 +145,53 @@ const jsonLd = {
   },
 };
 
+const faqs = [
+  {
+    q: 'מה זה "אווירה בעסק"?',
+    a: "שירות אוצרות מוזיקה: פלייליסט מקורי שנבנה במיוחד לעסק שלך — מותאם לאופי המקום, לקהל ולשעות הפעילות — במקום רדיו או סטרימינג גנרי.",
+  },
+  {
+    q: "איך משמיעים את המוזיקה בעסק?",
+    a: "מקבלים לינק השמעה פשוט שמתנגן ברצף. לא צריך ציוד מיוחד או התקנה — פותחים את הלינק והמוזיקה מתנגנת.",
+  },
+  {
+    q: "מה כלול בחודש הניסיון החינם?",
+    a: "פלייליסט מותאם לאופי העסק, התאמה לקהל ולשעות, סבב תיקונים ואונבורדינג. ללא כרטיס אשראי, וניתן לבטל בכל עת.",
+  },
+  {
+    q: "לאיזה עסקים זה מתאים?",
+    a: "בית קפה, מסעדה, ספא, יוגה, בוטיק, קליניקה, מלון ומאפייה — כל מקום שבו האווירה משפיעה על החוויה של הלקוחות.",
+  },
+  {
+    q: "מה לגבי זכויות יוצרים ורישוי השמעה?",
+    a: "המוזיקה נוצרת במיוחד עבורך ואינה מבוססת על פלייליסטים מסחריים מוכרים. עם זאת, מומלץ לכל עסק לבדוק באופן עצמאי את חובות הרישוי החלות עליו.",
+  },
+  {
+    q: "איך מתחילים?",
+    a: "לוחצים על כפתור הוואטסאפ, מספרים בקצרה על העסק והאווירה הרצויה, ומתחילים את חודש הניסיון החינם.",
+  },
+];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+
 export default function Page() {
   return (
     <main className="relative overflow-x-hidden">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
 
       {/* ─── 1. HERO ─────────────────────────────────────────── */}
@@ -422,6 +463,61 @@ export default function Page() {
                 <span>{b.emoji}</span>
                 <span>{b.label}</span>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <hr className="section-divider" />
+
+      {/* ─── 6.5 FAQ ─────────────────────────────────────────── */}
+      <section
+        className="py-24 px-6"
+        style={{
+          background:
+            "radial-gradient(ellipse 60% 50% at 50% 0%, rgba(212,168,83,0.05) 0%, transparent 70%), #0b0f22",
+        }}
+      >
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-12 space-y-3">
+            <p className="text-[#d4a853] text-sm font-semibold tracking-[0.2em] uppercase">
+              שאלות נפוצות
+            </p>
+            <h2 className="text-3xl md:text-4xl font-bold text-white">
+              כל מה שרציתם לדעת
+            </h2>
+          </div>
+
+          <div className="space-y-3">
+            {faqs.map((f) => (
+              <details
+                key={f.q}
+                className="group rounded-xl border border-white/5 overflow-hidden"
+                style={{ background: "rgba(255,255,255,0.02)" }}
+              >
+                <summary className="flex items-center justify-between gap-4 cursor-pointer list-none px-5 py-4 text-slate-100 text-base font-medium [&::-webkit-details-marker]:hidden hover:text-white">
+                  <span>{f.q}</span>
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    aria-hidden
+                    className="flex-shrink-0 text-[#d4a853] transition-transform duration-300 group-open:rotate-180"
+                  >
+                    <path
+                      d="M6 9l6 6 6-6"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </summary>
+                <p className="px-5 pb-5 -mt-1 text-slate-400 text-sm leading-relaxed">
+                  {f.a}
+                </p>
+              </details>
             ))}
           </div>
         </div>
