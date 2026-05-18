@@ -1,6 +1,6 @@
 import AudioDemo from "./AudioDemo";
 
-const WA_PHONE = "972500000000";
+const WA_PHONE = "972546503587";
 const WA_MESSAGE = encodeURIComponent(
   'היי, ראיתי את השירות "אווירה בעסק" ואני רוצה לקבל חודש ניסיון חינם.\n\nסוג העסק שלי:\nשם העסק:\nעיר:\nהאווירה שאני רוצה במקום:'
 );
@@ -116,9 +116,42 @@ const forWhom = [
   { emoji: "🐾", label: "מאפיות" },
 ];
 
+const SITE_URL = "https://avira-baesek.vercel.app";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: "אווירה בעסק",
+  description:
+    "אוצרות מוזיקה מותאמת אישית לעסקים — פלייליסטים מקוריים לבית קפה, מסעדה, ספא, בוטיק וקליניקה, מותאמים לאופי המקום, לקהל ולשעות הפעילות.",
+  url: SITE_URL,
+  telephone: "+972546503587",
+  inLanguage: "he",
+  serviceType: "אוצרות מוזיקה מותאמת אישית לעסקים",
+  areaServed: { "@type": "Country", name: "ישראל" },
+  contactPoint: {
+    "@type": "ContactPoint",
+    contactType: "customer service",
+    telephone: "+972546503587",
+    availableLanguage: ["he"],
+  },
+  makesOffer: {
+    "@type": "Offer",
+    name: "חודש ניסיון חינם",
+    description:
+      "חודש ניסיון חינם לבעלי עסקים ראשונים — פלייליסט מותאם, סבב תיקונים ואונבורדינג.",
+    price: "0",
+    priceCurrency: "ILS",
+  },
+};
+
 export default function Page() {
   return (
     <main className="relative overflow-x-hidden">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
 
       {/* ─── 1. HERO ─────────────────────────────────────────── */}
       <section
