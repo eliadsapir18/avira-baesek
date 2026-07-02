@@ -10,6 +10,9 @@ export type Sample = {
   blurb: string;
 };
 
+// אירוע גלובלי: סקשן "לאיזה עסקים" משדר בחירת סוג עסק, והנגן מאזין ובוחר את הדגימה.
+export const SELECT_SAMPLE_EVENT = "avira:select-sample";
+
 // מוצגות באתר רק דגימות שכבר נוצרו (יש להן /public/samples/<slug>.mp3).
 export const SAMPLES: Sample[] = [
   { slug: "cafe", emoji: "☕", label: "בית קפה", blurb: "אקוסטי חם, רגוע, מזמין להישאר" },

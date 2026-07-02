@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { SAMPLES } from "./sampleCatalog";
+import { SAMPLES, SELECT_SAMPLE_EVENT } from "./sampleCatalog";
 
 const EQ_BARS = [6, 11, 8, 14, 9, 13, 7, 12, 10, 8, 13, 6];
 
@@ -21,6 +21,16 @@ export default function AudioDemo() {
   const [missing, setMissing] = useState(false);
 
   const active = SAMPLES.find((s) => s.slug === activeSlug) || null;
+
+  // בחירה מרחוק — צ'יפ בסקשן "לאיזה עסקים" משדר slug והנגן עובר אליו
+  useEffect(() => {
+    function onSelect(e: Event) {
+      const slug = (e as CustomEvent<string>).detail;
+      if (SAMPLES.some((s) => s.slug === slug)) setActiveSlug(slug);
+    }
+    window.addEventListener(SELECT_SAMPLE_EVENT, onSelect);
+    return () => window.removeEventListener(SELECT_SAMPLE_EVENT, onSelect);
+  }, []);
 
   // טוען ומנגן כשבוחרים סוג עסק
   useEffect(() => {
@@ -71,7 +81,8 @@ export default function AudioDemo() {
 
   return (
     <section
-      className="py-24 px-6"
+      id="demo"
+      className="py-24 px-6 scroll-mt-8"
       style={{
         background:
           "radial-gradient(ellipse 60% 50% at 50% 0%, rgba(212,168,83,0.06) 0%, transparent 70%), #0b0f22",

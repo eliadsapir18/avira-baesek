@@ -1,4 +1,5 @@
 import AudioDemo from "./AudioDemo";
+import BusinessChips from "./BusinessChips";
 import FloatingWhatsApp from "./FloatingWhatsApp";
 import { WA_URL } from "./whatsapp";
 
@@ -101,15 +102,68 @@ const trialPerks = [
   "ליווי אישי בהתחלה",
 ];
 
-const forWhom = [
-  { emoji: "☕", label: "בתי קפה" },
-  { emoji: "🍽️", label: "מסעדות" },
-  { emoji: "💆", label: "ספא ויופי" },
-  { emoji: "🏋️", label: "יוגה ופילאטיס" },
-  { emoji: "👗", label: "בוטיקים וחנויות" },
-  { emoji: "🏥", label: "מרפאות וקליניקות" },
-  { emoji: "🏨", label: "מלונות ולובי" },
-  { emoji: "🐾", label: "מאפיות" },
+// נתונים ממחקרים פומביים על מוזיקת רקע בעסקים — social proof אמיתי,
+// בלי להמציא המלצות. המקורות מופיעים בכיתוב מתחת לסקשן.
+const stats = [
+  {
+    value: "+9%",
+    label: "עלייה במכירות כשהמוזיקה מותאמת לאופי המותג, לעומת מוזיקה פופולרית אקראית",
+    source: "HUI Research, 2017",
+  },
+  {
+    value: "40%",
+    label: "מהלקוחות נשארים זמן רב יותר בעסק שמשמיע מוזיקה שהם אוהבים",
+    source: "MRC Data (Nielsen Music), 2021",
+  },
+  {
+    value: "62%",
+    label: "מהמבקרים בבתי קפה מעריכים מקום שמשמיע מוזיקה שמתאימה להם",
+    source: "MRC Data (Nielsen Music), 2021",
+  },
+  {
+    value: "92%",
+    label: "מהמותגים מדווחים: מוזיקה נכונה מובילה לשהייה ארוכה יותר ולהוצאה גבוהה יותר",
+    source: "TrendCandy, 2024",
+  },
+];
+
+const dayparts = [
+  {
+    emoji: "🌅",
+    time: "בוקר",
+    title: "פתיחה רכה",
+    desc: "אקוסטי עדין שמלווה את הקפה הראשון של היום",
+  },
+  {
+    emoji: "☀️",
+    time: "צהריים",
+    title: "שעת העומס",
+    desc: "קצב שמחזיק אנרגיה ומזיז את התור קדימה",
+  },
+  {
+    emoji: "🌇",
+    time: "אחר הצהריים",
+    title: "זרימה נינוחה",
+    desc: "גרוב רגוע שמזמין את הלקוחות להישאר עוד קצת",
+  },
+  {
+    emoji: "🌙",
+    time: "ערב",
+    title: "סוגרים יפה",
+    desc: "חמימות מעודנת שמסיימת את היום בטעם של עוד",
+  },
+];
+
+type CompareMark = "yes" | "no" | "partial";
+
+const compareColumns = ["רדיו", "סטרימינג אישי*", "אווירה בעסק"] as const;
+
+const compareRows: { feature: string; marks: [CompareMark, CompareMark, CompareMark] }[] = [
+  { feature: "מוזיקה שנבנתה לאופי העסק שלכם", marks: ["no", "no", "yes"] },
+  { feature: "בלי פרסומות ובלי קריינות", marks: ["no", "partial", "yes"] },
+  { feature: "מותאם לשעות ולקצב של היום", marks: ["no", "no", "yes"] },
+  { feature: "מוזיקה מקורית שנוצרה עבורכם", marks: ["no", "no", "yes"] },
+  { feature: "ליווי אישי וסבב תיקונים", marks: ["no", "no", "yes"] },
 ];
 
 const SITE_URL = "https://avira-baesek.vercel.app";
@@ -153,6 +207,10 @@ const faqs = [
   {
     q: "מה כלול בחודש הניסיון החינם?",
     a: "פלייליסט מותאם לאופי העסק, התאמה לקהל ולשעות, סבב תיקונים ואונבורדינג. ללא כרטיס אשראי, וניתן לבטל בכל עת.",
+  },
+  {
+    q: "כמה זה עולה אחרי חודש הניסיון?",
+    a: "לקראת סוף חודש הניסיון נתאים יחד מסלול חודשי לפי היקף המוזיקה והצרכים של העסק — בשקיפות מלאה ולפני כל חיוב. אין התחייבות: אם זה לא מתאים לכם, פשוט מפסיקים.",
   },
   {
     q: "לאיזה עסקים זה מתאים?",
@@ -344,6 +402,58 @@ export default function Page() {
 
       <hr className="section-divider" />
 
+      {/* ─── 3.7 STATS — נתונים ממחקרים ─────────────────────── */}
+      <section
+        className="py-24 px-6"
+        style={{
+          background: "linear-gradient(180deg, #0b0f22 0%, #111627 100%)",
+        }}
+      >
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-14 space-y-3">
+            <p className="text-[#d4a853] text-sm font-semibold tracking-[0.2em] uppercase">
+              למה זה משתלם
+            </p>
+            <h2 className="text-3xl md:text-4xl font-bold text-white">
+              זה לא רק תחושה. <span className="text-[#d4a853]">זה מדיד.</span>
+            </h2>
+            <p className="text-slate-400 text-lg max-w-xl mx-auto">
+              מחקרים על מוזיקת רקע בעסקים מראים שוב ושוב: המוזיקה הנכונה
+              משפיעה ישירות על כמה זמן נשארים — וכמה מוציאים.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 gap-6">
+            {stats.map((s) => (
+              <div
+                key={s.label}
+                className="rounded-2xl p-6 border border-white/5 hover:border-[#d4a853]/20 transition-colors duration-300 space-y-2"
+                style={{ background: "rgba(255,255,255,0.03)" }}
+              >
+                <p
+                  dir="ltr"
+                  className="text-5xl font-extrabold text-[#d4a853] tabular-nums text-right"
+                >
+                  {s.value}
+                </p>
+                <p className="text-slate-200 text-base leading-relaxed">
+                  {s.label}
+                </p>
+                <p className="text-slate-500 text-xs">{s.source}</p>
+              </div>
+            ))}
+          </div>
+
+          <p className="text-center text-xs text-slate-600 mt-8 max-w-2xl mx-auto">
+            הנתונים מתוך מחקרים וסקרים פומביים על מוזיקת רקע בעסקים: HUI
+            Research (2017) · MRC Data, לשעבר Nielsen Music (2021) · סקר
+            TrendCandy בקרב 150 מנהלי מותגים בארה״ב (2024).
+          </p>
+        </div>
+      </section>
+
+      <hr className="section-divider" />
+
       {/* ─── 4. HOW IT WORKS ─────────────────────────────────── */}
       <section className="py-24 px-6" style={{ background: "#0b0f22" }}>
         <div className="max-w-4xl mx-auto">
@@ -373,6 +483,60 @@ export default function Page() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <hr className="section-divider" />
+
+      {/* ─── 4.5 DAYPARTS — היום שלכם בסאונד ────────────────── */}
+      <section className="py-24 px-6" style={{ background: "#111627" }}>
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-14 space-y-3">
+            <p className="text-[#d4a853] text-sm font-semibold tracking-[0.2em] uppercase">
+              מותאם לשעות הפעילות
+            </p>
+            <h2 className="text-3xl md:text-4xl font-bold text-white">
+              המוזיקה משתנה <span className="text-[#d4a853]">עם היום שלכם</span>
+            </h2>
+            <p className="text-slate-400 text-lg max-w-xl mx-auto">
+              עסק לא נשמע אותו דבר בשמונה בבוקר ובשמונה בערב. הפלייליסט
+              שלכם נבנה סביב הקצב האמיתי של המקום.
+            </p>
+          </div>
+
+          <div className="relative">
+            {/* קו הזמן — דסקטופ בלבד */}
+            <div
+              className="hidden md:block absolute top-7 right-[12%] left-[12%] h-px pointer-events-none"
+              style={{
+                background:
+                  "linear-gradient(90deg, transparent, rgba(212,168,83,0.35), rgba(212,168,83,0.35), transparent)",
+              }}
+              aria-hidden
+            />
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {dayparts.map((d) => (
+                <div
+                  key={d.time}
+                  className="relative flex flex-col items-center text-center gap-2"
+                >
+                  <span
+                    className="w-14 h-14 flex items-center justify-center rounded-full text-2xl border border-[#d4a853]/25"
+                    style={{ background: "#0b0f22" }}
+                  >
+                    {d.emoji}
+                  </span>
+                  <p className="text-[#d4a853] text-xs font-semibold tracking-widest">
+                    {d.time}
+                  </p>
+                  <h3 className="text-white font-bold">{d.title}</h3>
+                  <p className="text-slate-400 text-sm leading-relaxed">
+                    {d.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -450,18 +614,7 @@ export default function Page() {
             </p>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-3">
-            {forWhom.map((b) => (
-              <div
-                key={b.label}
-                className="flex items-center gap-2 px-5 py-3 rounded-full border border-white/8 text-slate-300 text-sm font-medium hover:border-[#d4a853]/30 hover:text-white transition-colors"
-                style={{ background: "rgba(255,255,255,0.03)" }}
-              >
-                <span>{b.emoji}</span>
-                <span>{b.label}</span>
-              </div>
-            ))}
-          </div>
+          <BusinessChips />
         </div>
       </section>
 
@@ -522,14 +675,116 @@ export default function Page() {
 
       <hr className="section-divider" />
 
-      {/* ─── 7. LEGAL NOTE ───────────────────────────────────── */}
+      {/* ─── 7. COMPARISON — למה דווקא אנחנו ────────────────── */}
       <section
-        className="py-16 px-6"
-        style={{ background: "#07091a" }}
+        className="py-24 px-6"
+        style={{
+          background:
+            "radial-gradient(ellipse 60% 50% at 50% 0%, rgba(212,168,83,0.05) 0%, transparent 70%), #07091a",
+        }}
       >
-        <div className="max-w-2xl mx-auto">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-12 space-y-3">
+            <p className="text-[#d4a853] text-sm font-semibold tracking-[0.2em] uppercase">
+              למה דווקא אנחנו
+            </p>
+            <h2 className="text-3xl md:text-4xl font-bold text-white">
+              רדיו וסטרימינג <span className="text-[#d4a853]">לא נבנו לעסק שלכם</span>
+            </h2>
+            <p className="text-slate-400 text-lg max-w-xl mx-auto">
+              ההבדל בין מוזיקה שסתם מתנגנת ברקע — למוזיקה שעובדת בשבילכם.
+            </p>
+          </div>
+
           <div
-            className="rounded-2xl p-6 border border-white/5 space-y-3"
+            className="rounded-2xl border border-white/8 overflow-hidden"
+            style={{ background: "rgba(255,255,255,0.02)" }}
+          >
+            {/* כותרת הטבלה */}
+            <div className="grid grid-cols-[1fr_repeat(3,minmax(3.5rem,5.5rem))] items-center gap-2 px-4 md:px-6 py-4 border-b border-white/8">
+              <span />
+              {compareColumns.map((c, i) => (
+                <span
+                  key={c}
+                  className={`text-center text-xs md:text-sm font-semibold leading-tight ${
+                    i === 2 ? "text-[#d4a853]" : "text-slate-400"
+                  }`}
+                >
+                  {c}
+                </span>
+              ))}
+            </div>
+
+            {compareRows.map((row) => (
+              <div
+                key={row.feature}
+                className="grid grid-cols-[1fr_repeat(3,minmax(3.5rem,5.5rem))] items-center gap-2 px-4 md:px-6 py-4 border-b border-white/5 last:border-b-0"
+              >
+                <span className="text-slate-200 text-sm leading-snug">
+                  {row.feature}
+                </span>
+                {row.marks.map((mark, i) => (
+                  <span
+                    key={i}
+                    className={`text-center ${
+                      i === 2 ? "bg-[#d4a853]/6 rounded-lg py-1.5 -my-1.5" : ""
+                    }`}
+                  >
+                    {mark === "yes" ? (
+                      <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        className="inline-block"
+                        aria-label="כן"
+                      >
+                        <path
+                          d="M4 12.5l5 5L20 6.5"
+                          stroke="#d4a853"
+                          strokeWidth="2.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    ) : mark === "partial" ? (
+                      <span
+                        className="text-amber-200/60 text-sm font-bold"
+                        aria-label="חלקי"
+                      >
+                        ~
+                      </span>
+                    ) : (
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        className="inline-block opacity-30"
+                        aria-label="לא"
+                      >
+                        <path
+                          d="M6 6l12 12M18 6L6 18"
+                          stroke="#94a3b8"
+                          strokeWidth="2.5"
+                          strokeLinecap="round"
+                        />
+                      </svg>
+                    )}
+                  </span>
+                ))}
+              </div>
+            ))}
+          </div>
+
+          <p className="text-slate-500 text-xs leading-relaxed mt-4">
+            * שירותי סטרימינג אישיים (כמו ספוטיפיי) מיועדים לפי תנאי השימוש
+            שלהם לשימוש אישי ולא עסקי, ובחלק מהמסלולים כוללים פרסומות.
+          </p>
+
+          {/* הערה משפטית */}
+          <div
+            className="rounded-2xl p-6 border border-white/5 space-y-3 mt-8"
             style={{ background: "rgba(255,255,255,0.02)" }}
           >
             <div className="flex items-center gap-2">
