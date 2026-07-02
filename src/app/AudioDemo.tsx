@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { BUSINESS_ICONS } from "./icons";
 import { SAMPLES, SELECT_SAMPLE_EVENT } from "./sampleCatalog";
 
 const EQ_BARS = [6, 11, 8, 14, 9, 13, 7, 12, 10, 8, 13, 6];
@@ -14,7 +15,11 @@ function fmt(t: number) {
 
 export default function AudioDemo() {
   const audioRef = useRef<HTMLAudioElement>(null);
-  const [activeSlug, setActiveSlug] = useState<string | null>(null);
+  // הדגימה הראשונה טעונה מראש כדי שהנגן לא ייראה ריק — אבל בלי ניגון אוטומטי
+  const [activeSlug, setActiveSlug] = useState<string | null>(
+    SAMPLES[0]?.slug ?? null,
+  );
+  const skipAutoplay = useRef(true);
   const [playing, setPlaying] = useState(false);
   const [cur, setCur] = useState(0);
   const [dur, setDur] = useState(0);
@@ -32,7 +37,7 @@ export default function AudioDemo() {
     return () => window.removeEventListener(SELECT_SAMPLE_EVENT, onSelect);
   }, []);
 
-  // טוען ומנגן כשבוחרים סוג עסק
+  // טוען ומנגן כשבוחרים סוג עסק (בטעינה הראשונית — רק טוען, לא מנגן)
   useEffect(() => {
     const el = audioRef.current;
     if (!el || !activeSlug) return;
@@ -40,6 +45,10 @@ export default function AudioDemo() {
     setCur(0);
     setDur(0);
     el.load();
+    if (skipAutoplay.current) {
+      skipAutoplay.current = false;
+      return;
+    }
     el.play().then(
       () => setPlaying(true),
       () => setPlaying(false),
@@ -82,7 +91,7 @@ export default function AudioDemo() {
   return (
     <section
       id="demo"
-      className="py-24 px-6 scroll-mt-8"
+      className="py-24 px-6 scroll-mt-14"
       style={{
         background:
           "radial-gradient(ellipse 60% 50% at 50% 0%, rgba(212,168,83,0.06) 0%, transparent 70%), #0b0f22",
@@ -105,6 +114,7 @@ export default function AudioDemo() {
         <div className="flex flex-wrap justify-center gap-3 mb-10">
           {SAMPLES.map((s) => {
             const on = s.slug === activeSlug;
+            const Icon = BUSINESS_ICONS[s.slug];
             return (
               <button
                 key={s.slug}
@@ -116,7 +126,7 @@ export default function AudioDemo() {
                 }`}
                 style={!on ? { background: "rgba(255,255,255,0.03)" } : undefined}
               >
-                <span>{s.emoji}</span>
+                {Icon && <Icon size={17} className="text-[#d4a853]" />}
                 <span>{s.label}</span>
               </button>
             );
@@ -155,8 +165,14 @@ export default function AudioDemo() {
                 </button>
 
                 <div className="flex-1 min-w-0">
-                  <p className="text-white font-semibold">
-                    {active.emoji} {active.label}
+                  <p className="flex items-center gap-2 text-white font-semibold">
+                    {(() => {
+                      const Icon = BUSINESS_ICONS[active.slug];
+                      return Icon ? (
+                        <Icon size={18} className="text-[#d4a853]" />
+                      ) : null;
+                    })()}
+                    {active.label}
                   </p>
                   <p className="text-slate-400 text-sm truncate">{active.blurb}</p>
                 </div>
@@ -212,7 +228,7 @@ export default function AudioDemo() {
           <audio
             ref={audioRef}
             src={active ? `/samples/${active.slug}.mp3` : undefined}
-            preload="none"
+            preload="metadata"
             onTimeUpdate={(e) => setCur(e.currentTarget.currentTime)}
             onLoadedMetadata={(e) => setDur(e.currentTarget.duration)}
             onEnded={() => setPlaying(false)}
