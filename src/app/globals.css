@@ -74,10 +74,13 @@ body::before {
         transform: none;
       }
     }
+    /* entry-crossing נמדד לפי תנועת הקצה העליון של הסקשן על פני המסך,
+       ולא לפי אחוז מגובה הסקשן — כך גם סקשנים גבוהים (טבלת השוואה,
+       מסלולים) מגיעים לשקיפות מלאה מהר, ולא נשארים "חשוכים" בזמן קריאה. */
     main > section:not(:first-of-type) {
       animation: section-reveal linear both;
       animation-timeline: view();
-      animation-range: entry 0% cover 26%;
+      animation-range: entry-crossing 0% entry-crossing 38%;
     }
   }
 }
