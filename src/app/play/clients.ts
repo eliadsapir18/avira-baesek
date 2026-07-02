@@ -18,6 +18,9 @@ export type PlayerClient = {
   slug: string;
   name: string;
   businessType: string;
+  /** קוד גישה שנמסר ללקוח יחד עם הלינק (הגנה קלה + תחושת בלעדיות).
+      ללקוח אמיתי — קוד אקראי בן 4-6 ספרות, שונה לכל לקוח. */
+  pin: string;
   playlists: ClientPlaylist[];
 };
 
@@ -26,6 +29,7 @@ export const CLIENTS: PlayerClient[] = [
     slug: "bakery-demo",
     name: "מאפייה — לקוח לדוגמה",
     businessType: "מאפייה",
+    pin: "1234",
     playlists: [
       {
         slug: "quiet",
