@@ -7,6 +7,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
+      // עמודי נגן של לקוחות + קבצי הפלייליסטים — פרטיים, לא לאינדוקס
+      disallow: ["/play/", "/playlists/"],
     },
     sitemap: `${SITE_URL}/sitemap.xml`,
     host: SITE_URL,

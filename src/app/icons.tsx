@@ -170,6 +170,26 @@ export function IconMoon(props: IconProps) {
   );
 }
 
+export function IconSparkle(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3z" />
+      <path d="M18.5 15.5l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9.9-2.1z" />
+    </svg>
+  );
+}
+
+export function IconRepeat(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <path d="M17 2l3 3-3 3" />
+      <path d="M20 5H7a4 4 0 00-4 4v1" />
+      <path d="M7 22l-3-3 3-3" />
+      <path d="M4 19h13a4 4 0 004-4v-1" />
+    </svg>
+  );
+}
+
 export function IconHeadphones(props: IconProps) {
   return (
     <svg {...base(props)}>
