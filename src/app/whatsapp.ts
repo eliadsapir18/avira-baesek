@@ -6,3 +6,8 @@ export const WA_MESSAGE = encodeURIComponent(
 );
 
 export const WA_URL = `https://wa.me/${WA_PHONE}?text=${WA_MESSAGE}`;
+
+// קישור וואטסאפ עם הודעה מותאמת (למשל CTA של מסלול ספציפי)
+export function waUrlFor(message: string) {
+  return `https://wa.me/${WA_PHONE}?text=${encodeURIComponent(message)}`;
+}

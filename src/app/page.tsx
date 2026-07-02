@@ -1,7 +1,7 @@
 import AudioDemo from "./AudioDemo";
 import BusinessChips from "./BusinessChips";
 import FloatingWhatsApp from "./FloatingWhatsApp";
-import { WA_URL } from "./whatsapp";
+import { WA_URL, waUrlFor } from "./whatsapp";
 
 function WhatsAppButton({ size = "default" }: { size?: "default" | "large" }) {
   const base =
@@ -154,6 +154,53 @@ const dayparts = [
   },
 ];
 
+// שלושת המסלולים. בכוונה בלי מחירים — המחיר נסגר בשיחה,
+// עד שאליעד יחליט על תמחור קבוע. חודש הניסיון חל על כולם.
+const packages = [
+  {
+    name: "בסיסי",
+    tagline: "לעסקים קטנים שרוצים להתחיל לנגן נכון",
+    popular: false,
+    features: [
+      "פלייליסט מקורי מותאם לאופי העסק",
+      "אווירה אחידה שמתאימה לכל שעות היום",
+      "רענון מוזיקה חודשי",
+      "לינק השמעה פשוט — בלי ציוד מיוחד",
+      "תמיכה בוואטסאפ",
+    ],
+    waMessage:
+      'היי! אני מעוניין במסלול הבסיסי של "אווירה בעסק".\n\nסוג העסק שלי:\nשם העסק:\nעיר:',
+  },
+  {
+    name: "מתקדם",
+    tagline: "לעסקים מבוססים שהאווירה חשובה להם",
+    popular: true,
+    features: [
+      "כל מה שבמסלול הבסיסי, ובנוסף:",
+      "מוזיקה שמשתנה עם שעות היום — בוקר, צהריים וערב",
+      "ספריית מוזיקה רחבה יותר, רענון דו-שבועי",
+      "סבבי תיקונים ללא הגבלה",
+      "ליווי אישי שוטף",
+    ],
+    waMessage:
+      'היי! אני מעוניין במסלול המתקדם של "אווירה בעסק".\n\nסוג העסק שלי:\nשם העסק:\nעיר:',
+  },
+  {
+    name: "מומחים",
+    tagline: "לחברות, רשתות ומלונות",
+    popular: false,
+    features: [
+      "כל מה שבמסלול המתקדם, ובנוסף:",
+      "מספר סניפים או אזורים — לובי, חדר כושר, ספא",
+      "זהות סאונד מלאה למותג",
+      "אוצר מוזיקלי אישי בזמינות מלאה",
+      "אונבורדינג לצוות שלכם",
+    ],
+    waMessage:
+      'היי! אני מעוניין במסלול המומחים של "אווירה בעסק" עבור החברה שלנו.\n\nשם החברה:\nמספר סניפים/אזורים:',
+  },
+];
+
 type CompareMark = "yes" | "no" | "partial";
 
 const compareColumns = ["רדיו", "סטרימינג אישי*", "אווירה בעסק"] as const;
@@ -193,6 +240,30 @@ const jsonLd = {
     price: "0",
     priceCurrency: "ILS",
   },
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "מסלולי אווירה בעסק",
+    itemListElement: [
+      {
+        "@type": "Offer",
+        name: "מסלול בסיסי",
+        description:
+          "לעסקים קטנים — פלייליסט מקורי מותאם, רענון חודשי, לינק השמעה פשוט ותמיכה בוואטסאפ.",
+      },
+      {
+        "@type": "Offer",
+        name: "מסלול מתקדם",
+        description:
+          "לעסקים מבוססים — מוזיקה שמשתנה עם שעות היום, רענון דו-שבועי, תיקונים ללא הגבלה וליווי אישי.",
+      },
+      {
+        "@type": "Offer",
+        name: "מסלול מומחים",
+        description:
+          "לחברות, רשתות ומלונות — מספר סניפים ואזורים, זהות סאונד למותג, אוצר מוזיקלי אישי ואונבורדינג לצוות.",
+      },
+    ],
+  },
 };
 
 const faqs = [
@@ -210,7 +281,7 @@ const faqs = [
   },
   {
     q: "כמה זה עולה אחרי חודש הניסיון?",
-    a: "לקראת סוף חודש הניסיון נתאים יחד מסלול חודשי לפי היקף המוזיקה והצרכים של העסק — בשקיפות מלאה ולפני כל חיוב. אין התחייבות: אם זה לא מתאים לכם, פשוט מפסיקים.",
+    a: "יש שלושה מסלולים: בסיסי לעסקים קטנים, מתקדם לעסקים מבוססים ומומחים לחברות ורשתות. המחיר נסגר בשיחה קצרה לפי המסלול והצרכים — בשקיפות מלאה ולפני כל חיוב. אין התחייבות: אם זה לא מתאים לכם, פשוט מפסיקים.",
   },
   {
     q: "לאיזה עסקים זה מתאים?",
@@ -594,6 +665,116 @@ export default function Page() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      <hr className="section-divider" />
+
+      {/* ─── 5.5 PACKAGES — שלושה מסלולים ───────────────────── */}
+      <section
+        className="py-24 px-6"
+        style={{
+          background: "linear-gradient(180deg, #111627 0%, #0b0f22 100%)",
+        }}
+      >
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-14 space-y-3">
+            <p className="text-[#d4a853] text-sm font-semibold tracking-[0.2em] uppercase">
+              המסלולים שלנו
+            </p>
+            <h2 className="text-3xl md:text-4xl font-bold text-white">
+              מסלול לכל <span className="text-[#d4a853]">גודל של עסק</span>
+            </h2>
+            <p className="text-slate-400 text-lg max-w-xl mx-auto">
+              מתחילים תמיד בחודש ניסיון חינם — ואז בוחרים את המסלול
+              שמתאים לכם. המחיר נסגר בשיחה קצרה, בשקיפות מלאה.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6 items-stretch">
+            {packages.map((p) => (
+              <div
+                key={p.name}
+                className={`relative flex flex-col rounded-2xl p-7 border transition-colors duration-300 ${
+                  p.popular
+                    ? "border-[#d4a853]/50 shadow-[0_0_50px_rgba(212,168,83,0.12)]"
+                    : "border-white/8 hover:border-[#d4a853]/25"
+                }`}
+                style={{
+                  background: p.popular
+                    ? "linear-gradient(180deg, rgba(212,168,83,0.08) 0%, rgba(255,255,255,0.03) 100%)"
+                    : "rgba(255,255,255,0.03)",
+                }}
+              >
+                {p.popular && (
+                  <span className="absolute -top-3.5 right-1/2 translate-x-1/2 px-4 py-1 rounded-full text-xs font-bold bg-[#d4a853] text-[#07091a] whitespace-nowrap">
+                    הכי פופולרי
+                  </span>
+                )}
+
+                <div className="space-y-1.5 mb-6">
+                  <h3
+                    className={`text-2xl font-extrabold ${
+                      p.popular ? "text-[#d4a853]" : "text-white"
+                    }`}
+                  >
+                    {p.name}
+                  </h3>
+                  <p className="text-slate-400 text-sm leading-snug">
+                    {p.tagline}
+                  </p>
+                </div>
+
+                <ul className="space-y-3 mb-8 flex-1">
+                  {p.features.map((f) => (
+                    <li key={f} className="flex items-start gap-2.5">
+                      <span
+                        className="mt-1 w-4 h-4 flex-shrink-0 rounded-full flex items-center justify-center"
+                        style={{ background: "rgba(212,168,83,0.15)" }}
+                      >
+                        <svg
+                          width="8"
+                          height="8"
+                          viewBox="0 0 10 10"
+                          fill="none"
+                          aria-hidden
+                        >
+                          <path
+                            d="M1.5 5l2.5 2.5 4.5-4"
+                            stroke="#d4a853"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </span>
+                      <span className="text-slate-200 text-sm leading-snug">
+                        {f}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+
+                <a
+                  href={waUrlFor(p.waMessage)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-bold transition-all duration-300 ${
+                    p.popular
+                      ? "bg-[#d4a853] text-[#07091a] hover:bg-[#f0d080] hover:scale-105 active:scale-95 shadow-[0_0_30px_rgba(212,168,83,0.3)]"
+                      : "border border-[#d4a853]/40 text-[#d4a853] hover:bg-[#d4a853]/10 hover:border-[#d4a853]/70"
+                  }`}
+                >
+                  דברו איתנו על המסלול
+                </a>
+              </div>
+            ))}
+          </div>
+
+          <p className="text-center text-xs text-slate-500 mt-8">
+            כל המסלולים מתחילים בחודש ניסיון חינם · ללא כרטיס אשראי · ביטול
+            בכל עת
+          </p>
         </div>
       </section>
 
