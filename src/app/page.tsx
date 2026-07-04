@@ -12,6 +12,7 @@ import {
   IconSunset,
   IconWhatsApp,
 } from "./icons";
+import { INDUSTRIES } from "./industries";
 import { WA_URL, waUrlFor } from "./whatsapp";
 
 function WhatsAppButton({ size = "default" }: { size?: "default" | "large" }) {
@@ -801,6 +802,24 @@ export default function Page() {
           </div>
 
           <BusinessChips />
+
+          {/* קישורים פנימיים לעמודי ה-SEO פר סוג עסק */}
+          <div className="mt-12 space-y-3">
+            <p className="text-slate-500 text-sm">
+              רוצים להעמיק? מדריך מוזיקה לכל סוג עסק:
+            </p>
+            <div className="flex flex-wrap justify-center gap-x-5 gap-y-2">
+              {INDUSTRIES.map((i) => (
+                <a
+                  key={i.slug}
+                  href={`/${i.slug}`}
+                  className="text-slate-400 hover:text-[#d4a853] text-sm underline underline-offset-4 decoration-white/15 hover:decoration-[#d4a853]/40 transition-colors"
+                >
+                  {i.h1}
+                </a>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 

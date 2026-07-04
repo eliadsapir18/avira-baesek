@@ -1,10 +1,11 @@
 import { WA_URL } from "./whatsapp";
 import { IconWave, IconWhatsApp } from "./icons";
 
+// "/#..." ולא "#..." — כדי שהעוגנים יעבדו גם מעמודי ה-SEO פר סוג עסק
 const links = [
-  { href: "#demo", label: "דגימות" },
-  { href: "#packages", label: "מסלולים" },
-  { href: "#faq", label: "שאלות נפוצות" },
+  { href: "/#demo", label: "דגימות" },
+  { href: "/#packages", label: "מסלולים" },
+  { href: "/#faq", label: "שאלות נפוצות" },
 ];
 
 /** תפריט עליון דק וקבוע — ניווט עוגנים + CTA וואטסאפ מקוצר. */
@@ -20,7 +21,7 @@ export default function SiteNav() {
     >
       <nav className="max-w-5xl mx-auto flex items-center justify-between gap-4 px-6 h-14">
         <a
-          href="#"
+          href="/"
           className="flex items-center gap-2 text-white font-bold hover:text-[#f0d080] transition-colors"
         >
           <IconWave size={20} className="text-[#d4a853]" />
